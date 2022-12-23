@@ -71,13 +71,17 @@
         const button = document.querySelector('#button-addon2');
         const list = document.querySelector('.list-group');
         
-        let totalExpenses = [];
-
+        let totalExpenses = JSON.parse(localStorage.getItem('totalExpenses')) || [];
         let total = 0;
-        
+
+        window.addEventListener('load', () => {
+            displayRows();
+        })
 
         button.addEventListener('click', () => {
             totalExpenses.push( setData(spentAmount, spentOn));
+            localStorage.setItem('totalExpenses', JSON.stringify(totalExpenses));
+            console.log(localStorage.getItem('totalExpenses'));
             displayRows();
         })
 
@@ -103,6 +107,7 @@
             return expense;
         }
 
+        //
         function displayRows(){
             list.innerHTML = '';
             total = 0;
@@ -113,6 +118,7 @@
             }
             document.querySelector('#total').innerHTML = `Total: ${total}`;
         }
+
 
         function singleRow(expense){
             return `<li class="list-group-item d-flex justify-content-between">
@@ -132,11 +138,11 @@
 
         }
         function deleteRow(moment){
-            console.log("moment");
             let modifiedExpenses = totalExpenses.filter((expense) => {
                 return expense.uniqueId !== moment;
             })
             totalExpenses = modifiedExpenses;
+            localStorage.setItem('totalExpenses', JSON.stringify(totalExpenses));
             displayRows();
         }
     </script>
