@@ -64,6 +64,10 @@
 				</div>
 			</div>
 		</div>
+        <!-- footer -->
+        <footer class="bg-dark text-light text-center p-3">
+            <p>© 2019 Xpense Tracker</p>
+        </footer>
 	</body>
     <script>
         const spentAmount = document.querySelector('#spentAmount');
@@ -79,6 +83,18 @@
         })
 
         button.addEventListener('click', () => {
+            if(spentAmount.value === '' || spentOn.value === ''){
+                alert('Please enter the amount and description');
+                return;
+            }
+            else if(spentAmount.value < 0){
+                alert('Please enter a valid amount');
+                return;
+            }
+            else if(spentOn.value.length < 3){
+                alert('Please enter a valid description');
+                return;
+            }
             totalExpenses.push( setData(spentAmount, spentOn));
             localStorage.setItem('totalExpenses', JSON.stringify(totalExpenses));
             console.log(localStorage.getItem('totalExpenses'));
